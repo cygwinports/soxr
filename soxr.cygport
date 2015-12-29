@@ -1,0 +1,41 @@
+inherit cmake
+
+NAME="soxr"
+VERSION=0.1.2
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="SoX Resampler library"
+DESCRIPTION="The SoX Resampler library performs one-dimensional sample-rate
+conversion.  It may be used, for example, to resample PCM-encoded audio."
+HOMEPAGE="http://soxr.sourceforge.net/"
+SRC_URI="mirror://sourceforge/soxr/soxr-${VERSION}-Source.tar.xz"
+SRC_DIR="soxr-${VERSION}-Source"
+
+PKG_NAMES="libsoxr0 libsoxr-devel libsoxr-lsr0 libsoxr-lsr-devel"
+libsoxr0_CONTENTS="
+	--exclude=examples
+	usr/bin/cygsoxr-0.dll
+	usr/share/doc/
+"
+libsoxr_devel_CONTENTS="
+	usr/include/soxr.h
+	usr/lib/libsoxr.dll.a
+	usr/lib/pkgconfig/soxr.pc
+	usr/share/doc/soxr/examples/
+"
+libsoxr_lsr0_CONTENTS="
+	usr/bin/cygsoxr-lsr-0.dll
+"
+libsoxr_lsr_devel_CONTENTS="
+	usr/include/soxr-lsr.h
+	usr/lib/libsoxr-lsr.dll.a
+	usr/lib/pkgconfig/soxr-lsr.pc
+"
+
+CYGCMAKE_ARGS="-DDOC_INSTALL_DIR=/usr/share/doc/soxr"
+
+src_test() {
+	cd ${B}
+	PATH=${B}/src:$PATH \
+	cygtest
+}
